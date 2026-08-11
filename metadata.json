@@ -1,0 +1,6 @@
+{
+  "name": "Hãy Đưa Tiền Cho Tôi",
+  "description": "Game mỉa mai phong cách Pay2Win cực hài hước, đòi nạp tiền liên tục để làm mọi việc!",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
