@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.ui.components.BrokeMockPopupModal
 import com.example.ui.components.CertificateDialog
 import com.example.ui.components.MinimalistBalanceBar
+import com.example.ui.components.MoneyParticleOverlay
 import com.example.ui.components.PayPopupModal
 import com.example.ui.components.VipBanner
 import com.example.ui.screens.GachaScreen
@@ -117,9 +118,10 @@ fun MainAppContent(viewModel: GameViewModel) {
     val pvpAiSpeechText by viewModel.pvpAiSpeechText.collectAsStateWithLifecycle()
     val pvpAiIsSpeaking by viewModel.pvpAiIsSpeaking.collectAsStateWithLifecycle()
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color(0xFF120C1B),
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = Color(0xFF120C1B),
         bottomBar = {
             NavigationBar(
                 containerColor = Color(0xFF1B1128),
@@ -419,5 +421,9 @@ fun MainAppContent(viewModel: GameViewModel) {
             user = userProfile,
             onDismiss = { viewModel.setShowCertificate(false) }
         )
+    }
+
+    // Money Rain Particle Overlay (falling coins / USD animation)
+    MoneyParticleOverlay(moneyRainEvent = viewModel.moneyRainEvent)
     }
 }

@@ -112,6 +112,16 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _pvpSpeechEvent = MutableSharedFlow<String>()
     val pvpSpeechEvent: SharedFlow<String> = _pvpSpeechEvent.asSharedFlow()
 
+    // Particle system trigger event for falling money/USD
+    private val _moneyRainEvent = MutableSharedFlow<Unit>()
+    val moneyRainEvent: SharedFlow<Unit> = _moneyRainEvent.asSharedFlow()
+
+    fun triggerMoneyRain() {
+        viewModelScope.launch {
+            _moneyRainEvent.emit(Unit)
+        }
+    }
+
     private var oxyJob: Job? = null
     private var randomPopupJob: Job? = null
     private var pvpHesitationJob: Job? = null
@@ -123,6 +133,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             val updated = user.copy(gold = user.gold + amount)
             repository.updateUser(updated)
             _systemNotice.value = "Tài khoản vừa cộng +$amount Vàng Ảo!"
+            _moneyRainEvent.emit(Unit)
         }
     }
 
@@ -132,6 +143,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             val updated = user.copy(gems = user.gems + amount)
             repository.updateUser(updated)
             _systemNotice.value = "Tài khoản vừa cộng +$amount Ngọc Nạp!"
+            _moneyRainEvent.emit(Unit)
         }
     }
 
@@ -460,6 +472,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             }
             _activePopup.value = null
             _systemNotice.value = "THÀNH CÔNG! Cảm ơn bạn đã cống nộp $amountVnd VNĐ cho NPH!"
+            _moneyRainEvent.emit(Unit)
         }
     }
 
