@@ -193,8 +193,8 @@ fun MainAppContent(viewModel: GameViewModel) {
                 NavigationBarItem(
                     selected = selectedTab == 4,
                     onClick = { viewModel.selectTab(4) },
-                    icon = { Icon(imageVector = Icons.Default.Receipt, contentDescription = "History") },
-                    label = { Text(text = "Nhật Ký", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                    icon = { Icon(imageVector = Icons.Default.Receipt, contentDescription = "Receipt") },
+                    label = { Text(text = "Hóa Đơn", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color.Black,
                         selectedTextColor = GoldPrimary,

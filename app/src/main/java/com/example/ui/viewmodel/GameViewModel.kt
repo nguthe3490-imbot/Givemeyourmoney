@@ -8,6 +8,8 @@ import com.example.data.AppDatabase
 import com.example.data.GameRepository
 import com.example.data.PurchaseEntity
 import com.example.data.UserEntity
+import com.example.util.MoneySoundType
+import com.example.util.PaySoundEffects
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -122,6 +124,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Triggers procedural audio for 'ting ting' coin chime or money counter sound.
+     */
+    fun playPaySound(type: MoneySoundType = MoneySoundType.TING_TING) {
+        PaySoundEffects.play(type)
+    }
+
     private var oxyJob: Job? = null
     private var randomPopupJob: Job? = null
     private var pvpHesitationJob: Job? = null
@@ -134,6 +143,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             repository.updateUser(updated)
             _systemNotice.value = "Tài khoản vừa cộng +$amount Vàng Ảo!"
             _moneyRainEvent.emit(Unit)
+            PaySoundEffects.play(MoneySoundType.TING_TING)
         }
     }
 
@@ -144,6 +154,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             repository.updateUser(updated)
             _systemNotice.value = "Tài khoản vừa cộng +$amount Ngọc Nạp!"
             _moneyRainEvent.emit(Unit)
+            PaySoundEffects.play(MoneySoundType.MONEY_COUNTER)
         }
     }
 
@@ -473,6 +484,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             _activePopup.value = null
             _systemNotice.value = "THÀNH CÔNG! Cảm ơn bạn đã cống nộp $amountVnd VNĐ cho NPH!"
             _moneyRainEvent.emit(Unit)
+            PaySoundEffects.play(if (amountVnd >= 100000) MoneySoundType.JACKPOT_CELEBRATE else MoneySoundType.CASH_REGISTER)
         }
     }
 
@@ -639,6 +651,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             newLogs.add("🚀 BẠN VỪA NẠP 500 VÀNG -> +50,000 LỰC CHIẾN TỨC THÌ! Sức mạnh hiện tại: ${_pvpPlayerPower.value}")
             _pvpBattleLogs.value = newLogs.takeLast(20)
             _systemNotice.value = "⚡ ĐÃ NẠP TIỀN P2W: Sức mạnh PvP tăng thêm +50,000 Lực Chiến!"
+            PaySoundEffects.play(MoneySoundType.TING_TING)
         } else {
             _activePopup.value = SatiricalPopup.CustomAlert(
                 title = "⚡ NẠP TIỀN TĂNG LỰC CHIẾN TỨC THÌ",
@@ -655,6 +668,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             newLogs.add("🛡️ BẠN VỪA NẠP 1,000 VÀNG -> KÍCH HOẠT GIÁP BẤT TỬ 10 GIÂY!")
             _pvpBattleLogs.value = newLogs.takeLast(20)
             _systemNotice.value = "👑 ĐÃ BẬT GIÁP BẤT TỬ PVP 10 GIÂY!"
+            PaySoundEffects.play(MoneySoundType.TING_TING)
         } else {
             _activePopup.value = SatiricalPopup.CustomAlert(
                 title = "🛡️ NẠP TIỀN MUA GIÁP BẤT TỬ",
@@ -672,6 +686,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             newLogs.add("🧪 BẠN VỪA NẠP 300 VÀNG -> HỒI 100% HP & MANA TỨC THÌ!")
             _pvpBattleLogs.value = newLogs.takeLast(20)
             _systemNotice.value = "🧪 ĐÃ HỒI ĐẦY MÁU & MANA TỨC THÌ!"
+            PaySoundEffects.play(MoneySoundType.TING_TING)
         } else {
             triggerBrokePopup(300)
         }
@@ -685,6 +700,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             val newLogs = _pvpBattleLogs.value.toMutableList()
             newLogs.add("⚡ BẠN VỪA NẠP 200 VÀNG -> XÓA TOÀN BỘ COOLDOWN KỸ NĂNG!")
             _pvpBattleLogs.value = newLogs.takeLast(20)
+            PaySoundEffects.play(MoneySoundType.TING_TING)
         } else {
             triggerBrokePopup(200)
         }
@@ -698,6 +714,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             newLogs.add("🏆 BẠN ĐÃ CHIẾN THẮNG TRẬN PVP!")
             _pvpBattleLogs.value = newLogs.takeLast(20)
             _systemNotice.value = "💣 CHIÊU MUA SERVER THÀNH CÔNG! ĐẠI GIA LÊN NGÔI!"
+            PaySoundEffects.play(MoneySoundType.JACKPOT_CELEBRATE)
         } else {
             _activePopup.value = SatiricalPopup.CustomAlert(
                 title = "💣 CHIÊU MUA SERVER (ONE SHOT KO)",

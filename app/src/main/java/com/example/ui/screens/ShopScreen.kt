@@ -54,6 +54,8 @@ import com.example.ui.theme.EmeraldGreen
 import com.example.ui.theme.GoldPrimary
 import com.example.ui.theme.NeonRedAccent
 import com.example.ui.theme.VipPurple
+import com.example.util.MoneySoundType
+import com.example.util.PaySoundEffects
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -198,6 +200,62 @@ fun ShopScreen(
                     fontSize = 11.sp,
                     color = Color.LightGray
                 )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Sound Effects Testing & Satirical Audio Bar
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1F142D)),
+            border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.4f))
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "🔊 Âm thanh nạp:",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = GoldPrimary
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFF2E1B44), RoundedCornerShape(8.dp))
+                            .border(0.5.dp, GoldPrimary, RoundedCornerShape(8.dp))
+                            .clickable { PaySoundEffects.play(MoneySoundType.TING_TING) }
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(text = "🪙 Ting Ting", fontSize = 10.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFF2E1B44), RoundedCornerShape(8.dp))
+                            .border(0.5.dp, DiamondCyan, RoundedCornerShape(8.dp))
+                            .clickable { PaySoundEffects.play(MoneySoundType.MONEY_COUNTER) }
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(text = "💵 Máy Đếm Tiền", fontSize = 10.sp, color = DiamondCyan, fontWeight = FontWeight.Bold)
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFF2E1B44), RoundedCornerShape(8.dp))
+                            .border(0.5.dp, EmeraldGreen, RoundedCornerShape(8.dp))
+                            .clickable { PaySoundEffects.play(MoneySoundType.CASH_REGISTER) }
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(text = "🏛️ Ka-Ching", fontSize = 10.sp, color = EmeraldGreen, fontWeight = FontWeight.Bold)
+                    }
+                }
             }
         }
 

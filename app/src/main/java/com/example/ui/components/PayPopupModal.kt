@@ -50,6 +50,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.ui.theme.DarkGold
 import com.example.ui.theme.GoldPrimary
 import com.example.ui.theme.NeonRedAccent
+import com.example.util.MoneySoundType
+import com.example.util.PaySoundEffects
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -242,7 +244,10 @@ fun PayPopupModal(
 
                 // Action Buttons
                 Button(
-                    onClick = { onConfirmPay(selectedMethod) },
+                    onClick = {
+                        PaySoundEffects.play(MoneySoundType.TING_TING)
+                        onConfirmPay(selectedMethod)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
